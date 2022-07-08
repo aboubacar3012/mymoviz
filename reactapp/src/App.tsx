@@ -19,7 +19,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         const loadMovieData = () => {
-            fetch(`http://localhost:3000/api/movies`, {
+            fetch(`/api/movies`, {
                 method: "GET",
                 headers: {
                     "content-type": "application/json;charset=UTF-8",
@@ -33,7 +33,7 @@ const App: React.FC = () => {
         }
 
         const loadWishListData = () => {
-            fetch(`http://localhost:3000/api/wishlists`, {
+            fetch(`/api/wishlists`, {
                 method: "GET",
                 headers: {
                     "content-type": "application/json;charset=UTF-8",
@@ -54,7 +54,7 @@ const App: React.FC = () => {
         const moviesWishListCopy = finded ? [...moviesWishList, finded] : [...moviesWishList]
         // setMoviesCount((prev) => (prev < moviesWishList.length ? prev + 1 : prev))
         setMoviesWishList(moviesWishListCopy)
-        fetch(`http://localhost:3000/api/wishlists`, {
+        fetch(`/api/wishlists`, {
             method: "POST",
             headers: {
                 "content-type": "application/json;charset=UTF-8",
@@ -73,7 +73,7 @@ const App: React.FC = () => {
         const moviesWishListCopy = finded ? finded : [...moviesWishList]
         // setMoviesCount((prev) => (prev > 0 ? prev - 1 : prev))
         setMoviesWishList(moviesWishListCopy)
-        fetch(`http://localhost:3000/api/wishlists`, {
+        fetch(`/api/wishlists`, {
             method: "DELETE",
             headers: {
                 "content-type": "application/json;charset=UTF-8",
