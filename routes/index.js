@@ -35,7 +35,7 @@ router.get("/api/wishlists", async function (req, res) {
 });
 
 /* Get all movies */
-router.get("/api/movies/", async function (req, res) {
+router.get("/api/movies", async function (req, res) {
     const params = req.body;
     const filter = { note: { $gte: params.note ? parseFloat(params.note) : 0 }, genre_ids: { $in: [params.genre] } };
     const movies = await movieModel.find(filter).limit(params.limit ? parseInt(params.limit) : 0);
