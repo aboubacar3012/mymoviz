@@ -5,7 +5,7 @@ var request = require("sync-request");
 const { movieModel } = require("../models/movie.model");
 const { wishlistModel } = require("../models/wishList.model");
 
-router.post("/api/wishlists/", async function (req, res) {
+router.post("/api/wishlists", async function (req, res) {
     const finded = await wishlistModel.findOne({ title: req.body.title });
     if (!finded) {
         const newWishList = new wishlistModel({
