@@ -35,10 +35,11 @@ router.get("/api/wishlists", async function (req, res) {
 });
 
 /* Get all movies */
-router.get("/api/movies", async function (req, res) {
-    const params = req.body;
-    const filter = { note: { $gte: params.note ? parseFloat(params.note) : 0 }, genre_ids: { $in: [params.genre] } };
-    const movies = await movieModel.find(filter).limit(params.limit ? parseInt(params.limit) : 0);
+router.get("/api/movies/", async function (req, res) {
+    // const params = req.body;
+    // .limit(params.limit ? parseInt(params.limit) : 0);
+    // const filter = { note: { $gte: params.note ? parseFloat(params.note) : 0 }, genre_ids: { $in: [params.genre] } };
+    const movies = await movieModel.find();
     if (!movies) {
         res.json({ success: false, message: "Une erreur s'est produite, Aucun films n'a ete trouve" });
     }
