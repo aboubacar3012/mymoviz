@@ -9,26 +9,21 @@ const App: React.FC = () => {
     const [movies, setMovies] = useState<MovieModel[]>([])
     const [moviesWishList, setMoviesWishList] = useState<MovieModel[]>([])
     const [moviesCount, setMoviesCount] = useState<number>(0)
-    const [filter, setFilter] = useState<Object>({
-        genre: "8",
-        limit: "30",
-        note: "9",
-    })
-
-    // const [limit, setLimit] = useState<number>(12)
+    const [filter, setFilter] = useState<Object>({})
 
     useEffect(() => {
         const loadMovieData = () => {
-            fetch(`/api/movies`, {
+            fetch(`/api/movies/${JSON.stringify(filter)}`, {
                 method: "GET",
                 headers: {
                     "content-type": "application/json;charset=UTF-8",
                 },
-                // body: JSON.stringify(filter),
+                // body: JSON.stringify(),
             })
                 .then((res) => res.json())
                 .then((result) => {
                     setMovies(result.movies)
+                    console.log(result)
                 })
         }
 
@@ -61,10 +56,10 @@ const App: React.FC = () => {
             },
             body: JSON.stringify(finded),
         })
-            .then((res) => res.json())
-            .then((result) => {
-                console.log(result)
-            })
+        // .then((res) => res.json())
+        // .then((result) => {
+        //     console.log(result)
+        // })
     }
 
     const handleClickDelMovie = (title: string) => {
@@ -90,60 +85,57 @@ const App: React.FC = () => {
     return (
         <>
             <Header handleClickDelMovie={handleClickDelMovie} wishList={moviesWishList} />
-            <Container>
-                <Row>
-                    {/* <Col sm={2}> */}
-                    {/* <h1>Filtre</h1> */}
-                    {/* 
-                        <form>
-                            <select className="form-select" aria-label="Default select example" onChange={(e) => setFilter({ ...filter, ...{ date: e.target.value } })}>
-                                <option selected>Annee de sortie ?</option>
-                                <option value="2022-01-01">2022</option>
-                                <option value="2021-01-01">2021</option>
-                                <option value="2020-01-01">2020</option>
-                                <option value="2019-01-01">2019</option>
-                            </select>
-                            <br />
-                            <select className="form-select" aria-label="Default select example" onChange={(e) => setFilter({ ...filter, ...{ genre: e.target.value } })}>
-                                <option selected>Genre de film ?</option>
-                                <option value="8">Action</option>
-                                <option value="12">Aventure</option>
-                                <option value="18">Drame</option>
-                                <option value="14">Fantastique</option>
-                                <option value="10749">Romance</option>
-                                <option value="37">Western</option>
-                                <option value="10752">Guerre</option>
-                                <option value="53">Thriller</option>
-                                <option value="878">Science-Fiction</option>
-                            </select>
-                            <br />
-                            <select className="form-select" aria-label="Default select example" onChange={(e) => setFilter({ ...filter, ...{ limit: e.target.value } })}>
-                                <option selected>Nombre de film ?</option>
-                                <option value="10">10</option>
-                                <option value="30">30</option>
-                                <option value="30">80</option>
-                                <option value="80">150</option>
-                            </select>
-                            <br />
-                            <select className="form-select" aria-label="Default select example" onChange={(e) => setFilter({ ...filter, ...{ note: e.target.value } })}>
-                                <option selected>Nombre d'etoile ?</option>
-                                <option value="9">9 ⭐⭐⭐⭐⭐⭐⭐⭐⭐</option>
-                                <option value="8">8 ⭐⭐⭐⭐⭐⭐⭐⭐</option>
-                                <option value="7">7 ⭐⭐⭐⭐⭐⭐⭐</option>
-                                <option value="6">6 ⭐⭐⭐⭐⭐⭐</option>
-                                <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                            </select>
-                        </form> */}
-                    {/* </Col> */}
-                    <Col sm={12}>
-                        <Row xs={1} sm={2} md={3}>
-                            {movies.map((movie, index) => (
-                                <Movie wishList={moviesWishList} handleClickDelMovie={handleClickDelMovie} handleClickAddMovie={handleClickAddMovie} movie={movie} key={index} />
-                            ))}
-                        </Row>
-                    </Col>
-                </Row>
-            </Container>
+            {movies.length > 0 ? (
+                <Container>
+                    <Row>
+                        <Col sm={2}>
+                            <h1>Filtre</h1>
+                            <form>
+                                <select className="form-select" aria-label="Default select example" onChange={(e) => setFilter({ ...filter, ...{ genre: e.target.value } })}>
+                                    <option selected>Genre de film ?</option>
+                                    <option value="12">Aventure</option>
+                                    <option value="18">Drame</option>
+                                    <option value="14">Fantastique</option>
+                                    <option value="10749">Romance</option>
+                                    <option value="37">Western</option>
+                                    <option value="10752">Guerre</option>
+                                </select>
+                                <br />
+                                <select className="form-select" aria-label="Default select example" onChange={(e) => setFilter({ ...filter, ...{ limit: e.target.value } })}>
+                                    <option selected>Nombre de film ?</option>
+                                    <option value="10">10</option>
+                                    <option defaultValue="30">30</option>
+                                    <option value="30">80</option>
+                                    <option value="80">150</option>
+                                </select>
+                                <br />
+                                <select className="form-select" aria-label="Default select example" onChange={(e) => setFilter({ ...filter, ...{ note: e.target.value } })}>
+                                    <option selected>Nombre d'etoile ?</option>
+                                    <option value="9">9 ⭐⭐⭐⭐⭐⭐⭐⭐⭐</option>
+                                    <option value="8">8 ⭐⭐⭐⭐⭐⭐⭐⭐</option>
+                                    <option value="7">7 ⭐⭐⭐⭐⭐⭐⭐</option>
+                                    <option value="6">6 ⭐⭐⭐⭐⭐⭐</option>
+                                    <option defaultValue="5">5 ⭐⭐⭐⭐⭐</option>
+                                </select>
+                            </form>
+                        </Col>
+                        <Col sm={10}>
+                            <Row xs={1} sm={2} md={3}>
+                                {movies.map((movie, index) => (
+                                    <Movie wishList={moviesWishList} handleClickDelMovie={handleClickDelMovie} handleClickAddMovie={handleClickAddMovie} movie={movie} key={index} />
+                                ))}
+                            </Row>
+                        </Col>
+                    </Row>
+                </Container>
+            ) : (
+                <div className="text-center mt-5 fs-1">
+                    Chargement en cours .... <br />
+                    <div className="spinner-border fs-1" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            )}
         </>
     )
 }
